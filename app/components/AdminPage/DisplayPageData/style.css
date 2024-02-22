@@ -1,0 +1,22 @@
+.alert-enter {
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 1;
+  transition: opacity 2s ease-in;
+}
+
+.alert-exit {
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 0;
+  transition: opacity 2s ease-out;
+}
+
+
+.custom-textarea:focus {
+  border: 2px solid #4c4caf;
+  background-color: aqua;
+}
+
