@@ -34,7 +34,12 @@ const MyPages = () => {
             </Button>
           </Grid>
           <Grid item xs={12} sm={4}>
-            <Button variant="outlined" fullWidth style={{ height: "100px" }}>
+            <Button
+              variant="outlined"
+              fullWidth
+              style={{ height: "100px" }}
+              onClick={() => handleGetData("/web-page")}
+            >
               Разработка сайта
             </Button>
           </Grid>

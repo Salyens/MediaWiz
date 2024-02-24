@@ -1,4 +1,4 @@
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from "@mui/material/styles";
 import { TextareaAutosize } from "@mui/material";
 import React from "react";
 
@@ -43,9 +43,17 @@ const EditorTextArea = ({ path, data, editableData, onSetEditableData }) => {
       current = current[key];
     }
 
-    current[keys[keys.length - 1]] = value;
+    if (value === "") {
+      // Если значение пустое, удалить ключ из объекта
+      delete current[keys[keys.length - 1]];
+    } else {
+      // Иначе, обновить значение
+      current[keys[keys.length - 1]] = value;
+    }
+
     onSetEditableData(updatedData);
   };
+
   return (
     <TextareaAutosize
       style={textareaStyles}

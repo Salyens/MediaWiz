@@ -9,10 +9,11 @@ const SaveButton = ({
   onSetSaveSuccess,
   onSetShowAlert,
   onSetAlertClass,
+  formData
 }) => {
   const handleSubmit = async () => {
     try {
-      const response = await ApiService.updatePageData(editableData, endPoint);
+      const response = await ApiService.updatePageData(formData, endPoint);
 
       onSetSaveSuccess(true);
       onSetShowAlert(true);

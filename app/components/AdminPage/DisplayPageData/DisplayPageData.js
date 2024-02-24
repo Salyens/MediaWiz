@@ -13,16 +13,63 @@ const DisplayPageData = ({ pageData, endPoint }) => {
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [alertClass, setAlertClass] = useState("");
+  const [fieldsToRemove, setFieldsToRemove] = useState([]);
+  const [markedForDeletion, setMarkedForDeletion] = useState({});
+
+  const convertDataToJSON = (data) => {
+    const jsonData = {};
+
+    const processData = (obj, path = []) => {
+      Object.entries(obj).forEach(([key, value]) => {
+        if (value instanceof File) {
+        } else if (value && typeof value === "object") {
+          processData(value, path.concat(key));
+        } else {
+          jsonData[path.concat(key).join(".")] = value;
+        }
+      });
+    };
+
+    processData(data);
+    return JSON.stringify(jsonData);
+  };
+
+  const addFilesToFormData = (formData, data, path = []) => {
+    Object.entries(data).forEach(([key, value]) => {
+      if (value instanceof File) {
+        formData.append(path.concat(key).join("."), value, value.name);
+      } else if (value && typeof value === "object") {
+        addFilesToFormData(formData, value, path.concat(key));
+      }
+    });
+  };
+
+  const createFormData = () => {
+    const formData = new FormData();
+    formData.append("doc", convertDataToJSON(editableData));
+
+    // Добавляем файлы в formData
+    addFilesToFormData(formData, editableData);
+
+    // Добавляем информацию о полях для удаления
+    if (fieldsToRemove.length > 0) {
+      formData.append("fieldsToRemove", JSON.stringify(fieldsToRemove));
+    }
+
+    return formData;
+  };
+
+  const formData = createFormData();
 
   const renderData = (data, path) => {
+    const isMarkedForDeletion = markedForDeletion[path];
     if (path === "_id") return null;
 
     if (typeof data === "object" && !Array.isArray(data) && data !== null) {
       return (
         <EditorHeader
-          key={path + Date.now()}
+          key={path}
           renderData={renderData}
-          formatLabel={formatLabel}
           path={path}
           data={data}
         />
@@ -30,12 +77,14 @@ const DisplayPageData = ({ pageData, endPoint }) => {
     } else if (Array.isArray(data)) {
       return (
         <EditorList
-          key={path + Date.now()}
+          onSetFieldsToRemove={setFieldsToRemove}
+          key={path}
           path={path}
           data={data}
           renderData={renderData}
           editableData={editableData}
           onSetEditableData={setEditableData}
+          setMarkedForDeletion={setMarkedForDeletion }
         />
       );
     } else {
@@ -45,7 +94,7 @@ const DisplayPageData = ({ pageData, endPoint }) => {
           sx={{
             p: 2,
             mb: 1,
-            bgcolor: "background.paper",
+            bgcolor: isMarkedForDeletion ? "red" : "background.paper", // Изменение цвета фона, если элемент отмечен для удаления
             boxShadow: 3,
             borderRadius: 2,
           }}
@@ -59,10 +108,15 @@ const DisplayPageData = ({ pageData, endPoint }) => {
             {formatLabel(path)}
           </Typography>
           {isImgUrl ? (
-            <UploadButton key={path + Date.now()} path={path} />
+            <UploadButton
+              key={path}
+              path={path}
+              editableData={editableData}
+              onSetEditableData={setEditableData}
+            />
           ) : (
             <EditorTextArea
-              key={path + Date.now()}
+              key={path}
               path={path}
               data={data}
               editableData={editableData}
@@ -95,6 +149,7 @@ const DisplayPageData = ({ pageData, endPoint }) => {
           onSetSaveSuccess={setSaveSuccess}
           onSetShowAlert={setShowAlert}
           onSetAlertClass={setAlertClass}
+          formData={formData}
         />
       </Box>
     </Box>

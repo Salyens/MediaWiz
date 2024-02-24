@@ -1,7 +1,8 @@
+import formatLabel from "@/utils/formatLabel";
 import { Box, Typography } from "@mui/material";
 import React from "react";
 
-const EditorHeader = ({ renderData, formatLabel, path, data }) => {
+const EditorHeader = ({ renderData, path, data }) => {
   return (
     <Box
       sx={{
@@ -11,7 +12,6 @@ const EditorHeader = ({ renderData, formatLabel, path, data }) => {
         boxShadow: 3,
         borderRadius: 2,
       }}
-      key={path}
     >
       <Typography
         variant="h6"

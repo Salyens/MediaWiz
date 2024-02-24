@@ -9,10 +9,11 @@ const EditorList = ({
   renderData,
   editableData,
   onSetEditableData,
+  onSetFieldsToRemove,
+  setMarkedForDeletion 
 }) => {
   return (
     <Box
-      key={path}
       sx={{
         p: 2,
         mb: 1,
@@ -37,6 +38,8 @@ const EditorList = ({
               index={index}
               editableData={editableData}
               onSetEditableData={onSetEditableData}
+              onSetFieldsToRemove={onSetFieldsToRemove}
+              setMarkedForDeletion={setMarkedForDeletion}
             />
           </Box>
         </Box>
