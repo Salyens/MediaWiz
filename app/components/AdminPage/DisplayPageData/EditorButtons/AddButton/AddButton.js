@@ -16,14 +16,27 @@ const AddButton = ({ path, editableData, onSetEditableData }) => {
       }
     });
 
+
     if (Array.isArray(current)) {
-      const newItem = path.includes("quotes")
-        ? { name: "", imgURL: "", quote: "" }
-        : "";
-      current.push(newItem);
+
+      if (current.length > 0) {
+        if (typeof current[0] === "object") {
+
+          const newItem = Object.keys(current[0]).reduce((obj, key) => {
+            obj[key] = ""; 
+            return obj;
+          }, {});
+          current.push(newItem);
+        } else if (typeof current[0] === "string") {
+          current.push("");
+        }
+      } else {
+        current.push("");
+      }
     }
     onSetEditableData(updatedData);
   };
+
   return (
     <Button
       variant="contained"

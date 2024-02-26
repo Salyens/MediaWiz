@@ -1,28 +1,56 @@
 import { useTheme } from "@mui/material/styles";
 import { TextareaAutosize } from "@mui/material";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { createGlobalStyle } from "styled-components";
+
+const GlobalStyles = createGlobalStyle`
+  .custom-textarea::placeholder {
+    color: red;
+    opacity: 1;
+    fontStyle: italic;
+  }
+`;
 
 const EditorTextArea = ({ path, data, editableData, onSetEditableData }) => {
   const theme = useTheme();
+  const [localData, setLocalData] = useState(data || "");
+
+  useEffect(() => {
+    setLocalData(data || "");
+  }, [data]);
+
+  const isEmpty = localData === "";
+
   const textareaStyles = {
-    width: "calc(100% - 24px)",
-    minHeight: "50px",
-    padding: "12px",
-    fontSize: "1rem",
-    lineHeight: "1.5",
-    border: `1px solid ${theme.palette.grey[300]}`,
-    borderRadius: theme.shape.borderRadius,
-    boxShadow: theme.shadows[1],
+    width: "100%", // Увеличение ширины
+    minHeight: "100px", // Увеличение минимальной высоты
+    padding: "15px", // Увеличение отступов
+    fontSize: "1.1rem", // Увеличение размера шрифта
+    fontFamily: "Roboto, sans-serif", // Изменение шрифта
+    lineHeight: "1.6", // Увеличение межстрочного интервала
+    borderColor:
+      localData === "" ? theme.palette.error.main : theme.palette.grey[400],
+    borderRadius: "8px", // Закругление углов
+    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)", // Добавление тени
     backgroundColor: theme.palette.background.paper,
+    color: theme.palette.text.primary,
+    resize: "vertical", // Разрешить изменение размера по вертикали
+    transition: "border-color 0.3s, box-shadow 0.3s", // Анимация фокуса
+    borderColor: isEmpty ? theme.palette.error.main : theme.palette.grey[300],
+    borderWidth: isEmpty ? "2px" : "1px", // Увеличение тол
     "&:focus": {
       outline: "none",
       borderColor: theme.palette.primary.main,
-      boxShadow: `0px 0px 0px 2px ${theme.palette.primary.light}`,
+      boxShadow: `0px 0px 12px ${theme.palette.primary.light}`,
+    },
+    "&::placeholder": {
+      color: theme.palette.error.main,
+      opacity: 1,
+      fontStyle: "italic", // Курсивный стиль для placeholder
     },
   };
-
-  const handleInputChange = (path, value) => {
-    const keys = path.split(".").reduce((acc, key) => {
+  const parsePath = (path) => {
+    return path.split(".").reduce((acc, key) => {
       if (key.includes("[")) {
         const [arrayKey, arrayIndex] = key.split(/\[(\d+)\]/).filter(Boolean);
         acc.push(arrayKey, parseInt(arrayIndex));
@@ -31,7 +59,10 @@ const EditorTextArea = ({ path, data, editableData, onSetEditableData }) => {
       }
       return acc;
     }, []);
+  };
 
+  const updateDataAtPath = (path, value, editableData) => {
+    const keys = parsePath(path);
     let updatedData = { ...editableData };
     let current = updatedData;
 
@@ -43,24 +74,24 @@ const EditorTextArea = ({ path, data, editableData, onSetEditableData }) => {
       current = current[key];
     }
 
-    if (value === "") {
-      // Если значение пустое, удалить ключ из объекта
-      delete current[keys[keys.length - 1]];
-    } else {
-      // Иначе, обновить значение
-      current[keys[keys.length - 1]] = value;
-    }
-
-    onSetEditableData(updatedData);
+    current[keys[keys.length - 1]] = value;
+    return updatedData;
   };
 
   return (
-    <TextareaAutosize
-      style={textareaStyles}
-      className="custom-textarea"
-      value={data || ""}
-      onChange={(e) => handleInputChange(path, e.target.value)}
-    />
+    <>
+      <GlobalStyles />
+      <TextareaAutosize
+        style={textareaStyles}
+        className="custom-textarea"
+        value={localData}
+        placeholder="Это поле не может быть пустым"
+        onChange={(e) => setLocalData(e.target.value)}
+        onBlur={() =>
+          onSetEditableData(updateDataAtPath(path, localData, editableData))
+        }
+      />
+    </>
   );
 };
 

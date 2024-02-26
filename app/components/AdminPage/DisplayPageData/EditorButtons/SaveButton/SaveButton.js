@@ -2,34 +2,44 @@ import ApiService from "@/app/services/ApiService";
 import { Button } from "@mui/material";
 import React from "react";
 import SaveIcon from "@mui/icons-material/Save";
+import checkForEmptyFields from "@/utils/checkForEmptyFields";
 
 const SaveButton = ({
   editableData,
   endPoint,
   onSetSaveSuccess,
-  onSetShowAlert,
   onSetAlertClass,
-  formData
+  formData,
+  onSetEditableData,
+  fieldsToRemove,
+  onSetFieldsToRemove,
 }) => {
+
   const handleSubmit = async () => {
     try {
+      const hasEmptyFields = checkForEmptyFields(editableData, fieldsToRemove);
+
+      if (hasEmptyFields) {
+        alert("Не все поля заполнены!"); 
+        return;
+      }
       const response = await ApiService.updatePageData(formData, endPoint);
 
+      onSetEditableData(response);
       onSetSaveSuccess(true);
-      onSetShowAlert(true);
       onSetAlertClass("alert-enter");
       window.scrollTo({ top: 0, behavior: "smooth" });
 
       setTimeout(() => {
-        onSetShowAlert(false);
+        onSetSaveSuccess(false);
       }, 4000);
       setTimeout(() => {
         onSetAlertClass("alert-exit");
       }, 2000);
     } catch (error) {
-      console.log("Update error: ", error);
       onSetSaveSuccess(false);
     }
+    onSetFieldsToRemove([]);
   };
   return (
     <Button

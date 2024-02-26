@@ -2,15 +2,18 @@ import formatLabel from "@/utils/formatLabel";
 import { Box, Typography } from "@mui/material";
 import React from "react";
 
-const EditorHeader = ({ renderData, path, data }) => {
+const EditorHeader = ({ renderData, path, data, fieldsToRemove }) => {
+  const formattedPath = path.replace(/\[(\w+)\]/g, ".$1");
+  const isMarked = fieldsToRemove.includes(formattedPath);
+
   return (
     <Box
       sx={{
         p: 2,
         mb: 2,
-        bgcolor: "background.paper",
         boxShadow: 3,
         borderRadius: 2,
+        bgcolor: isMarked ? "red" : "background.paper",
       }}
     >
       <Typography

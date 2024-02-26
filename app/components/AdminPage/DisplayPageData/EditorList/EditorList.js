@@ -10,14 +10,13 @@ const EditorList = ({
   editableData,
   onSetEditableData,
   onSetFieldsToRemove,
-  setMarkedForDeletion 
+  fieldsToRemove
 }) => {
   return (
     <Box
       sx={{
         p: 2,
         mb: 1,
-        bgcolor: "#e0e0e0",
         boxShadow: 3,
         borderRadius: 2,
       }}
@@ -36,10 +35,8 @@ const EditorList = ({
             <DeleteButton
               path={path}
               index={index}
-              editableData={editableData}
-              onSetEditableData={onSetEditableData}
+              fieldsToRemove={fieldsToRemove}
               onSetFieldsToRemove={onSetFieldsToRemove}
-              setMarkedForDeletion={setMarkedForDeletion}
             />
           </Box>
         </Box>

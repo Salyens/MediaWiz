@@ -1,27 +1,34 @@
-import { Button } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import { Button, Box, Typography } from "@mui/material";
 
-const UploadButton = ({ path, editableData, onSetEditableData }) => {
-  const handleFileChange = (path, file) => {
-    // Преобразование path из формата с квадратными скобками в формат с точками
-    const formattedPath = path.replace(/\[(\w+)\]/g, ".$1");
+const UploadButton = ({ path, onSetEditableData }) => {
+  // const [fileName, setFileName] = useState("");
 
-    // Обновляем editableData с новым файлом
-    onSetEditableData({
-      ...editableData,
-      [formattedPath]: file, // используем обновленный формат path
-    });
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // setFileName(file.name);
+      const formattedPath = path.replace(/\[(\w+)\]/g, ".$1");
+      onSetEditableData(prev => {
+        return {...prev, [formattedPath]: file};
+      });
+      
+    }
   };
 
   return (
-    <Button variant="outlined" component="label" sx={{ mt: 1 }}>
-      Загрузить файл
-      <input
-        type="file"
-        hidden
-        onChange={(e) => handleFileChange(path, e.target.files[0])}
-      />
-    </Button>
+    <Box>
+      <Button variant="outlined" component="label" sx={{ mt: 1 }}>
+        Загрузить файл
+        <input type="file" hidden onChange={handleFileChange} />
+      </Button>
+      {/* <Typography>sss{fileName}</Typography>
+      {fileName && (
+        <Typography variant="body2" sx={{ mt: 1 }}>
+          Выбранный файл: {fileName}
+        </Typography>
+      )} */}
+    </Box>
   );
 };
 

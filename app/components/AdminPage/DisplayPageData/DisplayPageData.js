@@ -7,62 +7,17 @@ import EditorTextArea from "./EditorTextArea/EditorTextArea";
 import SaveButton from "./EditorButtons/SaveButton/SaveButton";
 import UploadButton from "./EditorButtons/UploadButton/UploadButton";
 import formatLabel from "@/utils/formatLabel";
+import createFormData from "@/utils/createFormData";
 
 const DisplayPageData = ({ pageData, endPoint }) => {
   const [editableData, setEditableData] = useState(pageData);
   const [saveSuccess, setSaveSuccess] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
   const [alertClass, setAlertClass] = useState("");
   const [fieldsToRemove, setFieldsToRemove] = useState([]);
-  const [markedForDeletion, setMarkedForDeletion] = useState({});
 
-  const convertDataToJSON = (data) => {
-    const jsonData = {};
-
-    const processData = (obj, path = []) => {
-      Object.entries(obj).forEach(([key, value]) => {
-        if (value instanceof File) {
-        } else if (value && typeof value === "object") {
-          processData(value, path.concat(key));
-        } else {
-          jsonData[path.concat(key).join(".")] = value;
-        }
-      });
-    };
-
-    processData(data);
-    return JSON.stringify(jsonData);
-  };
-
-  const addFilesToFormData = (formData, data, path = []) => {
-    Object.entries(data).forEach(([key, value]) => {
-      if (value instanceof File) {
-        formData.append(path.concat(key).join("."), value, value.name);
-      } else if (value && typeof value === "object") {
-        addFilesToFormData(formData, value, path.concat(key));
-      }
-    });
-  };
-
-  const createFormData = () => {
-    const formData = new FormData();
-    formData.append("doc", convertDataToJSON(editableData));
-
-    // Добавляем файлы в formData
-    addFilesToFormData(formData, editableData);
-
-    // Добавляем информацию о полях для удаления
-    if (fieldsToRemove.length > 0) {
-      formData.append("fieldsToRemove", JSON.stringify(fieldsToRemove));
-    }
-
-    return formData;
-  };
-
-  const formData = createFormData();
+  const formData = createFormData(editableData, fieldsToRemove);
 
   const renderData = (data, path) => {
-    const isMarkedForDeletion = markedForDeletion[path];
     if (path === "_id") return null;
 
     if (typeof data === "object" && !Array.isArray(data) && data !== null) {
@@ -72,6 +27,7 @@ const DisplayPageData = ({ pageData, endPoint }) => {
           renderData={renderData}
           path={path}
           data={data}
+          fieldsToRemove={fieldsToRemove}
         />
       );
     } else if (Array.isArray(data)) {
@@ -84,7 +40,7 @@ const DisplayPageData = ({ pageData, endPoint }) => {
           renderData={renderData}
           editableData={editableData}
           onSetEditableData={setEditableData}
-          setMarkedForDeletion={setMarkedForDeletion }
+          fieldsToRemove={fieldsToRemove}
         />
       );
     } else {
@@ -94,7 +50,7 @@ const DisplayPageData = ({ pageData, endPoint }) => {
           sx={{
             p: 2,
             mb: 1,
-            bgcolor: isMarkedForDeletion ? "red" : "background.paper", // Изменение цвета фона, если элемент отмечен для удаления
+            bgcolor: "background.paper",
             boxShadow: 3,
             borderRadius: 2,
           }}
@@ -111,7 +67,6 @@ const DisplayPageData = ({ pageData, endPoint }) => {
             <UploadButton
               key={path}
               path={path}
-              editableData={editableData}
               onSetEditableData={setEditableData}
             />
           ) : (
@@ -130,7 +85,7 @@ const DisplayPageData = ({ pageData, endPoint }) => {
 
   return (
     <Box sx={{ p: 2, position: "relative" }}>
-      {saveSuccess && showAlert && (
+      {saveSuccess && (
         <Alert severity="success" className={alertClass}>
           Изменения успешно сохранены!
         </Alert>
@@ -138,18 +93,31 @@ const DisplayPageData = ({ pageData, endPoint }) => {
       <Typography
         sx={{ textAlign: "center", mb: 2 }}
         variant="h5"
-      >{`Редактирование страницы "${pageData.header}"`}</Typography>
+      >{`Редактирование страницы`}</Typography>
       {Object.entries(editableData).map(([key, value]) =>
         renderData(value, key)
       )}
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+
+          position: "fixed", // Замените 'absolute' на 'fixed'
+          bottom: "0", // Выравнивание по нижней части экрана
+          left: "50%", // Центрирование кнопки по горизонтали
+          transform: "translateX(-50%)", // Сдвиг влево на половину её ширины для точного центрирования
+          width: "100%", // Максимальная ширина
+        }}
+      >
         <SaveButton
           editableData={editableData}
           endPoint={endPoint}
           onSetSaveSuccess={setSaveSuccess}
-          onSetShowAlert={setShowAlert}
           onSetAlertClass={setAlertClass}
           formData={formData}
+          onSetEditableData={setEditableData}
+          fieldsToRemove={fieldsToRemove}
+          onSetFieldsToRemove={setFieldsToRemove}
         />
       </Box>
     </Box>
