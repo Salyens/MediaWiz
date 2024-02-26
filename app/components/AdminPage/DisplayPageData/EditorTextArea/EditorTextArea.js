@@ -2,6 +2,7 @@ import { useTheme } from "@mui/material/styles";
 import { TextareaAutosize } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { createGlobalStyle } from "styled-components";
+import updateDataAtPath from "@/utils/updateDataAtPath";
 
 const GlobalStyles = createGlobalStyle`
   .custom-textarea::placeholder {
@@ -22,22 +23,22 @@ const EditorTextArea = ({ path, data, editableData, onSetEditableData }) => {
   const isEmpty = localData === "";
 
   const textareaStyles = {
-    width: "100%", // Увеличение ширины
-    minHeight: "100px", // Увеличение минимальной высоты
-    padding: "15px", // Увеличение отступов
-    fontSize: "1.1rem", // Увеличение размера шрифта
-    fontFamily: "Roboto, sans-serif", // Изменение шрифта
-    lineHeight: "1.6", // Увеличение межстрочного интервала
+    width: "100%", 
+    minHeight: "100px", 
+    padding: "15px", 
+    fontSize: "1.1rem", 
+    fontFamily: "Roboto, sans-serif", 
+    lineHeight: "1.6", 
     borderColor:
       localData === "" ? theme.palette.error.main : theme.palette.grey[400],
-    borderRadius: "8px", // Закругление углов
-    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)", // Добавление тени
+    borderRadius: "8px", 
+    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
     backgroundColor: theme.palette.background.paper,
     color: theme.palette.text.primary,
-    resize: "vertical", // Разрешить изменение размера по вертикали
-    transition: "border-color 0.3s, box-shadow 0.3s", // Анимация фокуса
+    resize: "vertical", 
+    transition: "border-color 0.3s, box-shadow 0.3s", 
     borderColor: isEmpty ? theme.palette.error.main : theme.palette.grey[300],
-    borderWidth: isEmpty ? "2px" : "1px", // Увеличение тол
+    borderWidth: isEmpty ? "2px" : "1px", 
     "&:focus": {
       outline: "none",
       borderColor: theme.palette.primary.main,
@@ -46,36 +47,8 @@ const EditorTextArea = ({ path, data, editableData, onSetEditableData }) => {
     "&::placeholder": {
       color: theme.palette.error.main,
       opacity: 1,
-      fontStyle: "italic", // Курсивный стиль для placeholder
+      fontStyle: "italic",
     },
-  };
-  const parsePath = (path) => {
-    return path.split(".").reduce((acc, key) => {
-      if (key.includes("[")) {
-        const [arrayKey, arrayIndex] = key.split(/\[(\d+)\]/).filter(Boolean);
-        acc.push(arrayKey, parseInt(arrayIndex));
-      } else {
-        acc.push(key);
-      }
-      return acc;
-    }, []);
-  };
-
-  const updateDataAtPath = (path, value, editableData) => {
-    const keys = parsePath(path);
-    let updatedData = { ...editableData };
-    let current = updatedData;
-
-    for (let i = 0; i < keys.length - 1; i++) {
-      const key = keys[i];
-      if (!current[key] || typeof current[key] !== "object") {
-        current[key] = typeof keys[i + 1] === "number" ? [] : {};
-      }
-      current = current[key];
-    }
-
-    current[keys[keys.length - 1]] = value;
-    return updatedData;
   };
 
   return (
