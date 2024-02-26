@@ -1,42 +1,25 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import { Button, Container } from "@mui/material";
+'use client'
+import React, { useState } from "react";
+import { Container, Typography } from "@mui/material";
 import ClientList from "../components/AdminPage/ClientList/ClientList";
 import MyPages from "../components/AdminPage/MyPages/MyPages";
 
 const AdminPage = () => {
-  const [token, setToken] = useState(null);
-  const [activeComponent, setActiveComponent] = useState("clients"); // Новое состояние для активного компонента
+  const [isAdmin, setIsAdmin] = useState(true);
 
-  useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    setToken(storedToken);
-  }, []);
+  return (
+    <Container sx={{ mt: 2 }}>
+      {isAdmin ? (
+        <ClientList onSetIsAdmin={setIsAdmin} />
+      ) : (
+        <Typography sx={{ textAlign: "center", mt: 4, color: "error.main" }}>
+          You should be logged in as an administrator to view this page.
+        </Typography>
+      )}
 
-  const showClients = () => {
-    setActiveComponent("clients");
-  };
-
-  const showPages = () => {
-    setActiveComponent("pages");
-  };
-
-  if (token) {
-    return (
-      <Container sx={{ mt: 2 }}>
-        <Button variant="text" onClick={showClients}>
-          Мои заявки
-        </Button>
-        <Button variant="text" onClick={showPages}>
-          Редактировать информацию
-        </Button>
-        {activeComponent === "clients" && <ClientList />}
-        {activeComponent === "pages" && <MyPages />}
-      </Container>
-    );
-  } else {
-    return <p>У вас нет прав для доступа к этой странице.</p>;
-  }
+      {/* {activeComponent === "pages" && <MyPages />} */}
+    </Container>
+  );
 };
 
 export default AdminPage;

@@ -18,9 +18,10 @@ const DisplayPageData = ({ pageData, endPoint }) => {
   const formData = createFormData(editableData, fieldsToRemove);
 
   const renderData = (data, path) => {
+    
     if (path === "_id") return null;
-
     if (typeof data === "object" && !Array.isArray(data) && data !== null) {
+
       return (
         <EditorHeader
           key={path}

@@ -11,7 +11,7 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import ApiService from "@/app/services/ApiService";
-import { Typography } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 
 const columns = [
   { id: "index", label: "#", minWidth: 50 },
@@ -58,13 +58,15 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function ClientList() {
+export default function ClientList({ onSetIsAdmin }) {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("name");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [data, setData] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(data.length === 0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -77,7 +79,11 @@ export default function ClientList() {
           }))
         );
       } catch (error) {
-        console.log(error);
+        if (error.response && error.response.status === 401)
+          onSetIsAdmin(false);
+        else setError("Something went wrong");
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -118,71 +124,91 @@ export default function ClientList() {
       <Typography variant="h5" align="center">
         Мои клиенты
       </Typography>
-      <Paper sx={{ width: "100%", overflow: "hidden" }}>
-        <Box sx={{ display: "flex", justifyContent: "flex-end", p: 2 }}>
-          <TextField
-            label="Search"
-            variant="outlined"
-            size="small"
-            value={searchText}
-            onChange={handleSearchChange}
-          />
+      {isLoading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: 400,
+          }}
+        >
+          <CircularProgress size={80} />
         </Box>
-        <TableContainer sx={{ maxHeight: 440 }}>
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{ minWidth: column.minWidth, fontWeight: "bold" }}
-                  >
-                    {column.id !== "index" && (
-                      <TableSortLabel
-                        active={orderBy === column.id}
-                        direction={orderBy === column.id ? order : "asc"}
-                        onClick={(event) => handleRequestSort(event, column.id)}
+      ) : (
+        <Paper sx={{ width: "100%", overflow: "hidden" }}>
+          <Box sx={{ display: "flex", justifyContent: "flex-end", p: 2 }}>
+            <TextField
+              label="Search"
+              variant="outlined"
+              size="small"
+              value={searchText}
+              onChange={handleSearchChange}
+            />
+          </Box>
+          <TableContainer sx={{ maxHeight: 440 }}>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth, fontWeight: "bold" }}
+                    >
+                      {column.id !== "index" && (
+                        <TableSortLabel
+                          active={orderBy === column.id}
+                          direction={orderBy === column.id ? order : "asc"}
+                          onClick={(event) =>
+                            handleRequestSort(event, column.id)
+                          }
+                        >
+                          {column.label}
+                        </TableSortLabel>
+                      )}
+                      {column.id === "index" && column.label}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {stableSort(filteredData, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                        key={row._id}
                       >
-                        {column.label}
-                      </TableSortLabel>
-                    )}
-                    {column.id === "index" && column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {stableSort(filteredData, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row._id}>
-                      <TableCell>{page * rowsPerPage + index + 1}</TableCell>
-                      {columns.slice(1).map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
-          component="div"
-          count={filteredData.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
+                        <TableCell>{page * rowsPerPage + index + 1}</TableCell>
+                        {columns.slice(1).map((column) => {
+                          const value = row[column.id];
+                          return (
+                            <TableCell key={column.id} align={column.align}>
+                              {value}
+                            </TableCell>
+                          );
+                        })}
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 100]}
+            component="div"
+            count={filteredData.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Paper>
+      )}
     </>
   );
 }

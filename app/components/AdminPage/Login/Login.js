@@ -1,19 +1,35 @@
 "use client";
 import { useRouter } from "next/navigation";
 import ApiService from "@/app/services/ApiService";
-import { Box, Button, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  TextField,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import React, { useState } from "react";
 
 const LoginForm = () => {
   const [data, setData] = useState({ email: "", password: "" });
-  const router = useRouter(); 
+  const [error, setError] = useState("");
+  const router = useRouter();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async () => {
     try {
-      const response = await ApiService.login(data);
+      setIsLoading(true);
+      await ApiService.login(data);
+      setError("");
       router.push("/admin");
+      setIsLoading(false);
     } catch (error) {
-      console.log("error: ", error);
+      setIsLoading(false);
+      setError(error.response.data.message);
     }
   };
 
@@ -28,14 +44,23 @@ const LoginForm = () => {
       }}
     >
       <Box
-        style={{
+        sx={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
+          alignItems: "center",
           backgroundColor: "white",
-          padding: "20px",
+          padding: isMobile ? 2 : 4,
+          boxShadow: 3,
+          borderRadius: 2,
+          maxWidth: 400,
+          width: "100%",
+          mx: "auto",
         }}
       >
+        {error && (
+          <Typography sx={{ color: "error.main", mb: 1 }}>{error}</Typography>
+        )}
         <TextField
           id="email-input"
           label="Email"
@@ -44,7 +69,7 @@ const LoginForm = () => {
             setData((prev) => ({ ...prev, email: e.target.value }))
           }
           variant="outlined"
-          style={{ marginBottom: "10px" }}
+          sx={{ mb: 2, width: "100%" }}
         />
         <TextField
           id="password-input"
@@ -55,9 +80,14 @@ const LoginForm = () => {
           }
           variant="outlined"
           type="password"
+          sx={{ mb: 2, width: "100%" }}
         />
-        <Button onClick={handleSubmit} sx={{ mt: 1 }} variant="outlined">
-          Log in
+        <Button
+          onClick={handleSubmit}
+          sx={{ mt: 1, width: "100%" }}
+          variant="contained"
+        >
+          {isLoading ? <CircularProgress/> : 'Log in'}
         </Button>
       </Box>
     </div>

@@ -12,7 +12,9 @@ class ApiService {
   }
 
   static async getFeedbacks() {
-    const response = await axios.get(`http://localhost:3001/admin`);
+    const response = await axios.get(`http://localhost:3001/admin`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    });
     return response.data;
   }
 
