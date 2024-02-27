@@ -1,4 +1,4 @@
-import ApiService from "@/app/services/ApiService";
+import ApiService from "@/services/ApiService";
 import { Button } from "@mui/material";
 import React from "react";
 import SaveIcon from "@mui/icons-material/Save";
@@ -14,13 +14,12 @@ const SaveButton = ({
   fieldsToRemove,
   onSetFieldsToRemove,
 }) => {
-
   const handleSubmit = async () => {
     try {
       const hasEmptyFields = checkForEmptyFields(editableData, fieldsToRemove);
 
       if (hasEmptyFields) {
-        alert("Не все поля заполнены!"); 
+        alert("Не все поля заполнены!");
         return;
       }
       const response = await ApiService.updatePageData(formData, endPoint);

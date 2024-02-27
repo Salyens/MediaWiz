@@ -1,24 +1,31 @@
-"use client"
-
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import checkAuthStatus from "@/utils/checkAuthStatus";
 
-const withAdminAuth = (WrappedComponent) => {
+const withAuth = (WrappedComponent) => {
   return (props) => {
-    const [token, setToken] = useState(null);
     const router = useRouter();
+    const [isAuthenticated, setIsAuthenticated] = useState(null);
 
     useEffect(() => {
-      const storedToken = localStorage.getItem("token");
-      setToken(storedToken);
+      const getStatus = async () => {
+        const authStatus = await checkAuthStatus();
+        setIsAuthenticated(authStatus);
+        if (!authStatus) {
+          router.push("/login");
+        }
+      };
 
-      if (!storedToken) {
-        router.push("/login");
-      }
-    }, [router]);
+      getStatus();
+    }, []); // Убран router из зависимостей
 
-    return token ? <WrappedComponent {...props} /> : <p>Загрузка...</p>;
+    if (isAuthenticated === null) {
+      // Можно отобразить индикатор загрузки
+      return <div>Loading...</div>;
+    }
+
+    return isAuthenticated ? <WrappedComponent {...props} /> : null;
   };
 };
 
-export default withAdminAuth;
+export default withAuth;

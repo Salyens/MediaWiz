@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { Alert, Box, Typography } from "@mui/material";
 import "./style.css";
 import EditorHeader from "./EditorHeader/EditorHeader";
@@ -8,20 +9,32 @@ import SaveButton from "./EditorButtons/SaveButton/SaveButton";
 import UploadButton from "./EditorButtons/UploadButton/UploadButton";
 import formatLabel from "@/utils/formatLabel";
 import createFormData from "@/utils/createFormData";
+import ApiService from "@/services/ApiService";
 
-const DisplayPageData = ({ pageData, endPoint }) => {
-  const [editableData, setEditableData] = useState(pageData);
+const DisplayPageData = ({ endPoint }) => {
+  const [editableData, setEditableData] = useState([]);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [alertClass, setAlertClass] = useState("");
   const [fieldsToRemove, setFieldsToRemove] = useState([]);
 
+  const handleGetData = async (param) => {
+    try {
+      const response = await ApiService.getPageData(param);
+      setEditableData(response);
+    } catch (error) {
+      console.log("error: ", error);
+    }
+  };
+
+  useEffect(() => {
+    handleGetData(endPoint)
+  }, []);
+
   const formData = createFormData(editableData, fieldsToRemove);
 
   const renderData = (data, path) => {
-    
     if (path === "_id") return null;
     if (typeof data === "object" && !Array.isArray(data) && data !== null) {
-
       return (
         <EditorHeader
           key={path}
@@ -103,11 +116,11 @@ const DisplayPageData = ({ pageData, endPoint }) => {
           display: "flex",
           justifyContent: "center",
 
-          position: "fixed", // Замените 'absolute' на 'fixed'
-          bottom: "0", // Выравнивание по нижней части экрана
-          left: "50%", // Центрирование кнопки по горизонтали
-          transform: "translateX(-50%)", // Сдвиг влево на половину её ширины для точного центрирования
-          width: "100%", // Максимальная ширина
+          position: "fixed",
+          bottom: "0", 
+          left: "50%", 
+          transform: "translateX(-50%)",
+          width: "100%", 
         }}
       >
         <SaveButton

@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import ApiService from "@/app/services/ApiService";
+import ApiService from "@/services/ApiService";
 import {
   Box,
   Button,
@@ -87,7 +87,7 @@ const LoginForm = () => {
           sx={{ mt: 1, width: "100%" }}
           variant="contained"
         >
-          {isLoading ? <CircularProgress/> : 'Log in'}
+          {isLoading ? <CircularProgress /> : "Log in"}
         </Button>
       </Box>
     </div>

@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { TextField } from "@mui/material";
 import "../modal.css";
-import ApiService from "@/app/services/ApiService";
+import ApiService from "@/services/ApiService";
 import MainModal from "../MainModal/MainModal";
 import SuccessModal from "../SuccessModal/SuccessModal";
 

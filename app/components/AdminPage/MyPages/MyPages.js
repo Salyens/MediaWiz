@@ -1,65 +1,33 @@
-import React, { useState } from "react";
-import { Button, Grid } from "@mui/material";
-import ApiService from "@/app/services/ApiService";
-import DisplayPageData from "../DisplayPageData/DisplayPageData";
+import React from 'react';
+import { Button, Grid, Typography } from '@mui/material';
+import Link from 'next/link';
 
 const MyPages = () => {
-  const [data, setData] = useState({});
-  const [endPoint, setEndPoint] = useState("");
-
-  const handleGetData = async (param) => {
-    try {
-      const response = await ApiService.getPageData(param);
-      setData(response);
-      setEndPoint(param);
-    } catch (error) {
-      console.log("error: ", error);
-    }
-  };
+  const pages = [
+    { pageName: 'Главная страница', endPoint: '/main-page' },
+    { pageName: 'Разработка сайтов', endPoint: '/web-page' },
+    { pageName: 'Продвижение сайтов', endPoint: '/webAd-page' },
+    { pageName: 'Ведение соц.сетей', endPoint: '/smm' },
+    { pageName: 'Продвижение соц.сетей', endPoint: '/smmAds' },
+  ];
 
   return (
     <>
-      {Object.keys(data).length ? (
-        <DisplayPageData pageData={data} endPoint={endPoint} />
-      ) : (
-        <Grid container spacing={2} sx={{ mt: 2 }}>
-          <Grid item xs={12} sm={4}>
-            <Button
-              variant="outlined"
-              fullWidth
-              onClick={() => handleGetData("/main-page")}
-              style={{ height: "100px" }}
-            >
-              Главная страница
-            </Button>
+      <Typography variant='h5' sx={{ mt: 2, textAlign: 'center' }}>
+        Мои страницы
+      </Typography>
+
+      <Grid container spacing={2} sx={{ mt: 2 }}>
+        {pages.map((page, index) => (
+          <Grid key={index} item xs={12} sm={4}>
+            <Link href={`/admin/pages${page.endPoint}`} passHref>
+              <Button variant='outlined' fullWidth style={{ height: '100px' }}>
+                {page.pageName}
+              </Button>
+            </Link>
           </Grid>
-          <Grid item xs={12} sm={4}>
-            <Button
-              variant="outlined"
-              fullWidth
-              style={{ height: "100px" }}
-              onClick={() => handleGetData("/web-page")}
-            >
-              Разработка сайта
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <Button variant="outlined" fullWidth style={{ height: "100px" }}>
-              Продвижение сайта
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <Button variant="outlined" fullWidth style={{ height: "100px" }}>
-              Ведение соц.сетей
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <Button variant="outlined" fullWidth style={{ height: "100px" }}>
-              Продвижение соц.сетей
-            </Button>
-          </Grid>
-        </Grid>
-      )}
+        ))}
+      </Grid>
     </>
   );
 };
