@@ -4,7 +4,7 @@ import { Typography } from "@mui/material";
 const AboutUs = () => {
   return (
     <div>
-      <Typography
+      <Typography 
         variant="h4"
         sx={{
           textAlign: "center",

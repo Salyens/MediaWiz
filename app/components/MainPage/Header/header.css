@@ -1,0 +1,15 @@
+.video {
+  position: relative;
+  height: 926px; 
+  overflow: hidden; 
+}
+
+.video_media {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: auto;
+  min-height: 100%;
+  transform: translate(-50%, -50%);
+  object-fit: cover; 
+}
