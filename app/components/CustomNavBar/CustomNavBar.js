@@ -11,6 +11,7 @@ import Container from "@mui/material/Container";
 import Link from "next/link";
 import "./customnavbar.css";
 import { Grid } from "@mui/material";
+import { motion } from "framer-motion";
 
 const pages = [
   "РAЗРАБОТКА САЙТА",
@@ -47,13 +48,13 @@ function CustomNavBar() {
 
   const renderNavLinks = (pages) => {
     return pages.map((page, index) => (
-      <Link  href={paths[index]} key={page}>
+      <Link href={paths[index]} key={page}>
         <Typography
           sx={{
             fontSize: 18,
             fontFamily: "Play, sans-serif",
             borderBottom: "2px solid transparent",
-            transition: "border-bottom 1s ease, color 1s ease",
+            transition: "border-bottom 0.4s ease, color 0.4s ease",
             "&:hover": {
               borderBottom: "2px solid rgba(151, 71, 255, 1)",
             },
@@ -70,93 +71,107 @@ function CustomNavBar() {
     <AppBar
       sx={{
         height: "102px",
-        boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
-        background: "rgba(180, 58, 237, 0.2)",
-        position: "fixed",
+        border: 0,
+        boxShadow: 0,
+        background: "transparent",
         zIndex: 2,
+        m: 0,
+        p: 0,
       }}
-      position="static"
+      position="fixed"
     >
-      <Container className="nav-container">
-        <Toolbar disableGutters>
-          <Grid
-            container
-            // spacing={2}
-            sx={{ alignItems: "center", justifyContent: "space-between" }}
-          >
-            <Grid item xs={1}>
-              <Link href="/" className="logo">
-                <img alt="Logo" width={100} height={100} src="/logo.png" />
-              </Link>
-            </Grid>
-            <Grid item xs={8}>
-              <Box
-                sx={{
-                  // flexGrow: 1,
-                  display: { xs: "none", md: "flex" },
-                  justifyContent: "space-around",
-                }}
-              >
-                {renderNavLinks(pages)}
-              </Box>
-            </Grid>
-            <Grid item xs={2}>
-              <Box
-                sx={{
-                  display: { xs: "none", md: "flex" },
-                  alignItems: "center",
-                  justifyContent: "flex-end",
-                }}
-              >
-                {renderSocialLinks(socialLinks)}
-              </Box>
-            </Grid>
-            <Grid item xs={4}>
-              <Box
-                sx={{
-                  flexGrow: 1,
-                  display: {
-                    xs: "flex",
-                    md: "none",
-                  },
-                  justifyContent: "space-between",
-                }}
-              >
-                <IconButton
-                  size="large"
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={handleOpenNavMenu}
-                  color="inherit"
-                >
-                  <MenuIcon />
-                </IconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorElNav}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "left",
-                  }}
-                  open={Boolean(anchorElNav)}
-                  onClose={handleCloseNavMenu}
+      <motion.div
+        initial={{
+          y: -100,
+          opacity: 0,
+          boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
+          background: "rgba(180, 58, 237, 0.2)",
+        }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ ease: "easeOut", duration: 1 }}
+
+      >
+        <Container className="nav-container" sx={{ pl: 0 }}>
+          <Toolbar disableGutters sx={{ pl: 0 }}>
+            <Grid
+              container
+              // spacing={2}
+              sx={{ alignItems: "center", justifyContent: "space-between", ml:0 }}
+            >
+              <Grid item xs={1}>
+                <Link href="/" className="logo">
+                  <img alt="Logo" width={100} height={100} src="/logo.png" />
+                </Link>
+              </Grid>
+              <Grid item xs={8}>
+                <Box
                   sx={{
-                    display: { xs: "block", md: "none" },
+                    // flexGrow: 1,
+                    display: { xs: "none", md: "flex" },
+                    justifyContent: "space-around",
                   }}
                 >
                   {renderNavLinks(pages)}
-                </Menu>
-              </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={2}>
+                <Box
+                  sx={{
+                    display: { xs: "none", md: "flex" },
+                    alignItems: "center",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  {renderSocialLinks(socialLinks)}
+                </Box>
+              </Grid>
+              <Grid item xs={4}>
+                <Box
+                  sx={{
+                    flexGrow: 1,
+                    display: {
+                      xs: "flex",
+                      md: "none",
+                    },
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={handleOpenNavMenu}
+                    color="inherit"
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                  <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorElNav}
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "left",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "left",
+                    }}
+                    open={Boolean(anchorElNav)}
+                    onClose={handleCloseNavMenu}
+                    sx={{
+                      display: { xs: "block", md: "none" },
+                    }}
+                  >
+                    {renderNavLinks(pages)}
+                  </Menu>
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
-        </Toolbar>
-      </Container>
+          </Toolbar>
+        </Container>
+      </motion.div>
     </AppBar>
   );
 }

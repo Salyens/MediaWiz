@@ -28,7 +28,15 @@ const Footer = () => {
 
   return (
     <Box className="footer-wrapper">
-      <Box sx={{ display: "flex", p: 1 }}>{renderSocialLinks()}</Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          p: 1,
+        }}
+      >
+        {renderSocialLinks()}
+      </Box>
       <Box sx={{ p: 1 }}>89033750261</Box>
       <Box sx={{ p: 1 }}>Политика конфеденциальности</Box>
     </Box>

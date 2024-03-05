@@ -1,11 +1,8 @@
-import React from 'react'
+import { Box } from "@mui/material";
+import React from "react";
 
 const Loading = () => {
-  return (
-    <div>
-      Loading
-    </div>
-  )
-}
+  return <Box sx={{ position: "absolute", zIndex: 5, width:500, height:500}}>Loading</Box>;
+};
 
-export default Loading
+export default Loading;

@@ -34,7 +34,7 @@ class ApiService {
   }
 
   static async getPageData(param) {
-    const response = await axios.get(`/admin/${param}`);
+    const response = await axios.get(`/${param}`);
 
     return response.data;
   }
