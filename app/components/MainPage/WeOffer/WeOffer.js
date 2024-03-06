@@ -58,18 +58,43 @@ const WeOffer = ({ weOffer }) => {
                 animate={{ y: -600 }}
                 transition={{ ease: "easeOut", duration: 2 }}
               >
-                <Box sx={{ display: "flex" }}>
+                <Box
+                  sx={{
+                    position: "relative",
+                    mt: 10,
+                    mb: 2,
+                    display: "inline-block",
+                  }}
+                >
                   <Typography
                     sx={{
                       fontSize: 36,
                       fontWeight: 400,
-                      borderBottom: "2px solid rgba(233, 58, 237, 1)",
-                      mt: 10,
-                      mb: 7,
+                      position: "relative",
                     }}
                   >
                     {title}
                   </Typography>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 2, duration: 1 }}
+                    style={{
+                      position: "absolute",
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      height: "3px",
+                      background: "rgba(233, 58, 237, 1)",
+                      width: "auto",
+                      boxShadow: `
+            0px 2px 5px rgba(124, 58, 237, 1),
+            0px 2px 20px rgba(124, 58, 237, 0.5),
+            0px 2px 50px rgba(124, 58, 237, 1),
+            0px 2px 150px rgba(124, 58, 237, 1)
+          `,
+                    }}
+                  />
                 </Box>
 
                 <Grid

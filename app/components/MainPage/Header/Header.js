@@ -2,6 +2,8 @@
 import "./header.css";
 import { Box, Grid, Typography } from "@mui/material";
 import { motion } from "framer-motion";
+import ClientSubmit from "../../Buttons/ClientSubmit";
+import FeedbackModal from "../../modals/FeedbackModal/FeedbackModal";
 
 const Header = ({ page }) => {
   const { main } = page.en;
@@ -95,6 +97,7 @@ const Header = ({ page }) => {
                   {main["description-1"]}
                 </Typography>
                 <Typography variant="p">{main["description-2"]}</Typography>
+                <FeedbackModal/>
               </Box>
             </motion.div>
           </Grid>

@@ -1,15 +1,11 @@
 "use client";
 
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-import { TextField } from "@mui/material";
 import "../modal.css";
-import ApiService from "@/services/ApiService";
+
 import MainModal from "../MainModal/MainModal";
 import SuccessModal from "../SuccessModal/SuccessModal";
+import ClientSubmit from "../../Buttons/ClientSubmit";
 
 export default function FeedbackModal() {
   const [open, setOpen] = React.useState(false);
@@ -20,7 +16,7 @@ export default function FeedbackModal() {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Оставить заявку</Button>
+      <ClientSubmit onClick={handleOpen}/>
       {!status ? (
         <MainModal
           open={open}

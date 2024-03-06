@@ -17,7 +17,7 @@ const OneCard = ({ header, description }) => {
           transition: "0.4s ease",
           "& .circle-on-hover": {
             borderColor: "#FF00B8",
-            boxShadow: "0px 0px 8px 3px #FF00B8", 
+            boxShadow: "0px 0px 8px 3px #FF00B8",
           },
         },
       }}
@@ -32,7 +32,31 @@ const OneCard = ({ header, description }) => {
           pt: 7,
         }}
       >
-        <Typography variant="h4" sx={{ mb: 2, fontSize: 36 }}>
+        <Typography
+          variant="h4"
+          sx={{
+            mb: 2,
+            fontSize: 36,
+            position: "relative",
+            pl: 1,
+            "&:before": {
+              content: '""',
+              position: "absolute",
+              left: 0,
+              top: 0,
+              bottom: 0,
+              width: "3px",
+              backgroundColor: "rgba(233, 58, 237, 1)",
+              boxShadow: `
+              0px 2px 5px rgba(124, 58, 237, 1),
+              0px 2px 20px rgba(124, 58, 237, 0.5),
+              0px 2px 50px rgba(124, 58, 237, 1),
+              0px 2px 150px rgba(124, 58, 237, 1)
+              `,
+            },
+          }}
+        >
+
           {header}
         </Typography>
         <Typography

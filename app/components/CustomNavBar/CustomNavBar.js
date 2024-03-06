@@ -77,6 +77,7 @@ function CustomNavBar() {
         zIndex: 2,
         m: 0,
         p: 0,
+        zIndex:5
       }}
       position="fixed"
     >
@@ -106,7 +107,6 @@ function CustomNavBar() {
               <Grid item xs={8}>
                 <Box
                   sx={{
-                    // flexGrow: 1,
                     display: { xs: "none", md: "flex" },
                     justifyContent: "space-around",
                   }}
