@@ -82,7 +82,7 @@ const ClientList = () => {
 
   return (
     <>
-      <Typography variant="h5" align="center" sx={{ mt: 2 }}>
+      <Typography variant="h5" align="center">
         Мои клиенты
       </Typography>
       {isLoading ? (

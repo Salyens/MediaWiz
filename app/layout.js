@@ -9,9 +9,18 @@ export default function RootLayout(props) {
     <html lang="en">
       <body>
         <ThemeProvider theme={theme}>
-          <CustomNavBar />
-          {children}
-          <Footer/>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <CustomNavBar />
+            <main style={{ flexGrow: 1 }}>{children}</main>
+            <div style={{ mt: "auto" }}>
+              <Footer />
+            </div>
+          </div>
         </ThemeProvider>
       </body>
     </html>
