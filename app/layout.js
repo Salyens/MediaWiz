@@ -7,7 +7,7 @@ export default function RootLayout(props) {
   const { children } = props;
   return (
     <html lang="en">
-      <body>
+      <body style={{}}>
         <ThemeProvider theme={theme}>
           <div
             style={{
@@ -16,7 +16,7 @@ export default function RootLayout(props) {
             }}
           >
             <CustomNavBar />
-            <main style={{ flexGrow: 1 }}>{children}</main>
+            <main style={{ flexGrow: 1, backgroundColor: "#1A1A1A" }}>{children}</main>
             <div style={{ mt: "auto" }}>
               <Footer />
             </div>

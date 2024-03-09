@@ -6,9 +6,9 @@ import { motion, useScroll } from "framer-motion";
 
 const WeOffer = ({ weOffer }) => {
   const { title, offerList } = weOffer;
-  const element = useRef(null);
+  const ref = useRef(null);
   const { scrollYProgress } = useScroll({
-    target: element,
+    target: ref,
     offset: ["start 0.8", "start start"],
   });
   const [isAnimate, setIsAnimate] = useState(false);
@@ -28,7 +28,7 @@ const WeOffer = ({ weOffer }) => {
   return (
     <>
       <motion.div
-        ref={element}
+        ref={ref}
         initial={{ y: 250 }}
         animate={{ y: 550 }}
         transition={{
@@ -63,6 +63,7 @@ const WeOffer = ({ weOffer }) => {
                     position: "relative",
                     mt: 10,
                     mb: 2,
+                    pl: 1,
                     display: "inline-block",
                   }}
                 >

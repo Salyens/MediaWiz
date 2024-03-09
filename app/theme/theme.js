@@ -1,5 +1,4 @@
 "use client";
-import { Play, Roboto } from "next/font/google";
 import { createTheme } from "@mui/material/styles";
 
 import '@fontsource/play/400.css';
