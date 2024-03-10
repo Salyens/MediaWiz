@@ -9,7 +9,6 @@ const MainPage =  async () => {
 
   return (
     <>
-      {/* {weOffer} */}
       <Header page={page} />
       <WeOffer weOffer={weOffer} />
     </>

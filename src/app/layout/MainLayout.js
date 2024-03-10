@@ -1,3 +1,4 @@
+"use client";
 import { ThemeProvider } from "styled-components";
 import theme from "../theme/theme";
 import CustomNavBar from "../components/CustomNavBar";
@@ -6,11 +7,13 @@ import Footer from "../components/Footer";
 export default function MainLayout(props) {
   const { children } = props;
   return (
+    
     <ThemeProvider theme={theme}>
       <div
         style={{
           display: "flex",
           flexDirection: "column",
+          minHeight: "100vh",
         }}
       >
         <CustomNavBar />

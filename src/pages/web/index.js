@@ -1,3 +1,5 @@
-export default function Website() {
-  return <div>WEB</div>;
-}
+// import MainPage from "@/src/app/components/MainPage";
+
+// export default function Web() {
+//   return <MainPage />;
+// }
