@@ -27,7 +27,7 @@ const DisplayPageData = ({ endPoint }) => {
   };
 
   useEffect(() => {
-    handleGetData(endPoint)
+    handleGetData(endPoint);
   }, []);
 
   const formData = createFormData(editableData, fieldsToRemove);
@@ -117,10 +117,10 @@ const DisplayPageData = ({ endPoint }) => {
           justifyContent: "center",
 
           position: "fixed",
-          bottom: "0", 
-          left: "50%", 
+          bottom: "0",
+          left: "50%",
           transform: "translateX(-50%)",
-          width: "100%", 
+          width: "100%",
         }}
       >
         <SaveButton
