@@ -34,8 +34,7 @@ class ApiService {
   }
 
   static async getPageData(param) {
-    const response = await axios.get(`/${param}`);
-
+    const response = await axios.get(`/${param}`, { cache: "no-store" });
     return response.data;
   }
 
