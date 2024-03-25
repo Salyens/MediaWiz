@@ -1,14 +1,9 @@
-'use client'
-import AdminLayout from "./AdminLayout";
-import ClientList from "../components/AdminPage/ClientList/ClientList";
+"use client";
+import ClientList from "../components/AdminPage/ClientList/page";
 import withAuth from "@/HOC/withAuth";
 
 const AdminPage = () => {
-  return (
-    <AdminLayout>
-      <ClientList />
-    </AdminLayout>
-  );
+  return <ClientList />;
 };
 
 export default withAuth(AdminPage);

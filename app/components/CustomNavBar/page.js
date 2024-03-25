@@ -92,11 +92,10 @@ function CustomNavBar() {
         transition={{ ease: "easeOut", duration: 1 }}
 
       >
-        <Container className="nav-container" sx={{ pl: 0 }}>
+        <Container className="nav-container" sx={{ maxWidth:1512 }}>
           <Toolbar disableGutters sx={{ pl: 0 }}>
             <Grid
               container
-              // spacing={2}
               sx={{ alignItems: "center", justifyContent: "space-between", ml:0 }}
             >
               <Grid item xs={1}>

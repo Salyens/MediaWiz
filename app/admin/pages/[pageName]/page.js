@@ -1,14 +1,9 @@
-'use client'
-import DisplayPageData from "@/app/components/AdminPage/DisplayPageData/DisplayPageData";
-import AdminLayout from "../../AdminLayout";
+"use client";
+import DisplayPageData from "@/app/components/AdminPage/DisplayPageData/page";
 import withAuth from "@/HOC/withAuth";
 
 const Page = ({ params }) => {
-  return (
-    <AdminLayout>
-      <DisplayPageData endPoint={params.pageName} />
-    </AdminLayout>
-  );
+  return <DisplayPageData endPoint={params.pageName} />;
 };
 
 export default withAuth(Page);

@@ -107,7 +107,7 @@ const DisplayPageData = ({ endPoint }) => {
       <Typography
         sx={{ textAlign: "center", mb: 2 }}
         variant="h5"
-      >{`Редактирование страницы`}</Typography>
+      >{`Редактирование страницы "${endPoint}"`}</Typography>
       {Object.entries(editableData).map(([key, value]) =>
         renderData(value, key)
       )}

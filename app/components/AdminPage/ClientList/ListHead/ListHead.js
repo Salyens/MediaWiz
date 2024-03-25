@@ -4,12 +4,15 @@ import React from "react";
 const ListHead = ({ columns, handleRequestSort, orderBy, order }) => {
   return (
     <TableHead>
-      <TableRow>
+      <TableRow >
         {columns.map((column) => (
           <TableCell
             key={column.id}
             align={column.align}
-            style={{ minWidth: column.minWidth, fontWeight: "bold" }}
+            style={{
+              minWidth: column.minWidth,
+              fontWeight: "bold",
+            }}
           >
             {column.id !== "index" && (
               <TableSortLabel

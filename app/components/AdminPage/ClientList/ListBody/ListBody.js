@@ -12,12 +12,12 @@ const ListBody = ({
   columns,
 }) => {
   return (
-    <TableBody>
+    <TableBody >
       {stableSort(filteredData, getComparator(order, orderBy))
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
         .map((row, index) => {
           return (
-            <TableRow hover role="checkbox" tabIndex={-1} key={row._id}>
+            <TableRow  hover role="checkbox" tabIndex={-1} key={row._id}>
               <TableCell>{page * rowsPerPage + index + 1}</TableCell>
               {columns.slice(1).map((column) => {
                 const value = row[column.id];

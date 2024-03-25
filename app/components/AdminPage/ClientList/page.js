@@ -81,8 +81,8 @@ const ClientList = () => {
   };
 
   return (
-    <>
-      <Typography variant="h5" align="center">
+    <Box>
+      <Typography variant="h5" align="center" sx={{mb:2}}>
         Мои клиенты
       </Typography>
       {isLoading ? (
@@ -97,7 +97,7 @@ const ClientList = () => {
           <CircularProgress size={80} />
         </Box>
       ) : (
-        <Paper sx={{ width: "100%", overflow: "hidden" }}>
+        <Paper>
           <Box sx={{ display: "flex", justifyContent: "flex-end", p: 2 }}>
             <TextField
               label="Search"
@@ -107,7 +107,7 @@ const ClientList = () => {
               onChange={handleSearchChange}
             />
           </Box>
-          <TableContainer sx={{ maxHeight: 440 }}>
+          <TableContainer sx={{ maxHeight: 600 }}>
             <Table stickyHeader aria-label="sticky table">
               <ListHead
                 columns={columns}
@@ -137,7 +137,7 @@ const ClientList = () => {
           />
         </Paper>
       )}
-    </>
+    </Box>
   );
 };
 export default ClientList;
