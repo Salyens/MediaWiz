@@ -36,16 +36,20 @@ class ApiService {
   static async getPageData(param) {
     const config = {
       headers: {
-        'Cache-Control': 'no-store'
-      }
+        "Cache-Control": "no-store",
+      },
     };
     const response = await axios.get(`/${param}`, config);
     return response.data;
   }
-  
 
   static async updatePageData(data, param) {
-    const response = await axios.patch(`/admin/${param}`, data);
+    const config = {
+      headers: {
+        "Cache-Control": "no-store",
+      },
+    };
+    const response = await axios.patch(`/admin/${param}`, data, config);
     return response.data;
   }
 }
