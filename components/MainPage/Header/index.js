@@ -3,6 +3,7 @@ import "./header.css";
 import { Box, Grid, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import FeedbackModal from "../../modals/FeedbackModal";
+import Image from "next/image";
 
 const Header = ({ page }) => {
   const { main } = page.en;
@@ -105,7 +106,7 @@ const Header = ({ page }) => {
               animate={{ y: 0 }}
               transition={{ ease: "easeOut", duration: 1 }}
             >
-              <img className="img" src="/logo.png" alt="logo" />
+              <Image className="img" width={350} height={350} src="/logo.png" alt="logo" />
             </motion.div>
           </Grid>
         </Grid>

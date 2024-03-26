@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import Image from "next/image";
 
 const OneCard = ({ header, description }) => {
   return (
@@ -55,7 +56,6 @@ const OneCard = ({ header, description }) => {
             },
           }}
         >
-
           {header}
         </Typography>
         <Typography
@@ -107,7 +107,7 @@ const OneCard = ({ header, description }) => {
               mr: 4,
             }}
           >
-            <img src="/arrow.png" alt="arrow" />
+            <Image width={50} height={50} src="/arrow.png" alt="arrow" />
           </Box>
         </Box>
       </Box>

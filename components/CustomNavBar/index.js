@@ -93,7 +93,7 @@ function CustomNavBar() {
             >
               <Grid item xs={1}>
                 <Link href="/" className="logo">
-                  <img alt="Logo" width={100} height={100} src="/logo.png" />
+                  <Image alt="Logo" width={100} height={100} src="/logo.png" />
                 </Link>
               </Grid>
               <Grid item xs={8}>
