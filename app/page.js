@@ -1,5 +1,5 @@
-import "./globals.css";
-import MainPage from "./components/MainPage/MainPage";
+import MainPage from "@components/MainPage";
+import "../styles/globals.css";
 
 export const metadata = {
   title: "Home page",

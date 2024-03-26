@@ -1,6 +1,7 @@
 "use client";
-import DisplayPageData from "@/app/components/AdminPage/DisplayPageData/page";
+
 import withAuth from "@/HOC/withAuth";
+import DisplayPageData from "@components/AdminPage/DisplayPageData";
 
 const Page = ({ params }) => {
   return <DisplayPageData endPoint={params.pageName} />;

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Play } from "next/font/google";
-import "../globals.css";
+import "@styles/globals.css";
 import { Box, Button, Container } from "@mui/material";
 
 const play = Play({ subsets: ["latin"], weight: ["400", "700"] });

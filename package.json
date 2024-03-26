@@ -8,12 +8,14 @@
     "start": "NODE_ENV=production node server.js"
   },
   "dependencies": {
+    "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@fontsource/play": "^5.0.18",
     "@fontsource/roboto": "^5.0.8",
     "@mui/icons-material": "^5.15.9",
     "@mui/material": "^5.15.9",
+    "@mui/material-nextjs": "^5.15.11",
     "@mui/styled-engine-sc": "^6.0.0-alpha.16",
     "@next/font": "^14.1.0",
     "animate.css": "^4.1.1",

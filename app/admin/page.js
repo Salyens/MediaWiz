@@ -1,6 +1,7 @@
 "use client";
-import ClientList from "../components/AdminPage/ClientList/page";
+
 import withAuth from "@/HOC/withAuth";
+import ClientList from "@components/AdminPage/ClientList";
 
 const AdminPage = () => {
   return <ClientList />;
