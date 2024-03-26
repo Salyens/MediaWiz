@@ -12,6 +12,7 @@ import Link from "next/link";
 import { Grid } from "@mui/material";
 import { motion } from "framer-motion";
 import styles from "./nav.module.css";
+import Image from "next/image";
 
 const pages = [
   "РAЗРАБОТКА САЙТА",
@@ -36,7 +37,7 @@ function CustomNavBar() {
   const renderSocialLinks = (socialLinks) => {
     return socialLinks.map((link) => (
       <Link key={link} href="#">
-        <img
+        <Image
           src={`/social_icons/${link}.png`}
           width={40}
           height={40}
